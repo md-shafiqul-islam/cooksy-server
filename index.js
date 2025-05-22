@@ -32,6 +32,12 @@ const run = async () => {
       res.send(result);
     });
 
+    // Get all recipes from DB
+    app.get("/recipes", async (req, res) => {
+      const result = await recipesCollection.find().toArray();
+      res.send(result);
+    });
+
     // Add recipes to DB
     app.post("/recipes", async (req, res) => {
       const result = await recipesCollection.insertOne(req.body);
