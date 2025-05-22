@@ -24,9 +24,17 @@ const run = async () => {
     await client.connect();
 
     const usersCollection = client.db("cookSyDB").collection("users");
+    const recipesCollection = client.db("cookSyDB").collection("recipes");
 
+    // Add users to DB
     app.post("/users", async (req, res) => {
       const result = await usersCollection.insertOne(req.body);
+      res.send(result);
+    });
+
+    // Add recipes to DB
+    app.post("/recipes", async (req, res) => {
+      const result = await recipesCollection.insertOne(req.body);
       res.send(result);
     });
 
