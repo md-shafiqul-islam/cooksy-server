@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -35,6 +35,14 @@ const run = async () => {
     // Get all recipes from DB
     app.get("/recipes", async (req, res) => {
       const result = await recipesCollection.find().toArray();
+      res.send(result);
+    });
+
+    // Get a specific recipe from DB
+    app.get("/recipes/:id", async (req, res) => {
+      const result = await recipesCollection.findOne({
+        _id: new ObjectId(req.params.id),
+      });
       res.send(result);
     });
 
