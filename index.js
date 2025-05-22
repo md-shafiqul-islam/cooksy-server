@@ -32,13 +32,17 @@ const run = async () => {
       res.send(result);
     });
 
-    // Get all recipes from DB
     app.get("/recipes", async (req, res) => {
-      const result = await recipesCollection.find().toArray();
+      const email = req.query.email;
+      let query = {};
+      if (email) {
+        query = { email: email };
+      }
+      // const query = email ? { email: email } : {};
+      const result = await recipesCollection.find(query).toArray();
       res.send(result);
     });
 
-    // Get a specific recipe from DB
     app.get("/recipes/:id", async (req, res) => {
       const result = await recipesCollection.findOne({
         _id: new ObjectId(req.params.id),
@@ -46,9 +50,15 @@ const run = async () => {
       res.send(result);
     });
 
-    // Add recipes to DB
     app.post("/recipes", async (req, res) => {
       const result = await recipesCollection.insertOne(req.body);
+      res.send(result);
+    });
+
+    app.delete("/recipes/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await recipesCollection.deleteOne(query);
       res.send(result);
     });
 
