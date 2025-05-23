@@ -55,6 +55,17 @@ const run = async () => {
       res.send(result);
     });
 
+    app.patch("/recipes/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const updateRecipeDoc = {
+        $set: req.body,
+      };
+
+      const result = await recipesCollection.updateOne(filter, updateRecipeDoc);
+      res.send(result);
+    });
+
     app.put("/recipes/:id", async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) };
