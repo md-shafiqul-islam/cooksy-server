@@ -34,12 +34,19 @@ const run = async () => {
 
     app.get("/recipes", async (req, res) => {
       const email = req.query.email;
+      const limit = parseInt(req.query.limit);
+
       let query = {};
       if (email) {
         query = { email: email };
       }
-      // const query = email ? { email: email } : {};
-      const result = await recipesCollection.find(query).toArray();
+
+      const cursor = recipesCollection.find(query).sort({ likeCount: -1 });
+
+      const result = limit
+        ? await cursor.limit(limit).toArray()
+        : await cursor.toArray();
+
       res.send(result);
     });
 
