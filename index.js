@@ -21,7 +21,7 @@ const client = new MongoClient(uri, {
 
 const run = async () => {
   try {
-    await client.connect();
+    // await client.connect();
 
     const usersCollection = client.db("cookSyDB").collection("users");
     const recipesCollection = client.db("cookSyDB").collection("recipes");
@@ -96,10 +96,9 @@ const run = async () => {
       res.send(result);
     });
 
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("You successfully connected to MongoDB!");
   } finally {
-    // Ensures that the client will close when you finish/error
     // await client.close();
   }
 };
